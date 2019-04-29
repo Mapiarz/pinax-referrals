@@ -48,10 +48,14 @@ class Referral(models.Model):
         cookie = request.COOKIES.get("pinax-referral")
         if cookie:
             code, session_key = cookie.split(":")
-            try:
-                return Referral.objects.get(code=code)
-            except Referral.DoesNotExist:
-                pass
+            return cls.for_code(code)
+
+    @classmethod
+    def for_code(cls, code):
+        try:
+            return Referral.objects.get(code=code)
+        except Referral.DoesNotExist:
+            pass
 
     @property
     def url(self):
