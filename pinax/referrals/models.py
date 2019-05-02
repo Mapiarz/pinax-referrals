@@ -70,7 +70,7 @@ class Referral(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.code:
-            self.code = settings.PINAX_REFERRALS_CODE_GENERATOR_CALLBACK(Referral)
+            self.code = settings.PINAX_REFERRALS_CODE_GENERATOR_CALLBACK(self, Referral)
         return super(Referral, self).save(*args, **kwargs)
 
     @classmethod
