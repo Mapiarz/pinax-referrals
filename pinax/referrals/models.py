@@ -118,19 +118,22 @@ class Referral(models.Model):
 
     def respond(self, request, action_string, user=None, target=None):
         if user is None:
-            if request.user.is_authenticated:
-                user = request.user
-            else:
-                user = None
+            if request.user:
+                if request.user.is_authenticated:
+                    user = request.user
+                else:
+                    user = None
 
         ip_address = request.META.get(
             settings.PINAX_REFERRALS_IP_ADDRESS_META_FIELD,
             ""
         )
 
+        session_key = request.session.session_key if request.session else ""
+
         kwargs = dict(
             referral=self,
-            session_key=request.session.session_key,
+            session_key=session_key,
             ip_address=ip_address,
             action=action_string,
             user=user
