@@ -6,5 +6,5 @@ app_name = "pinax_referrals"
 
 urlpatterns = [
     url(r"^$", create_referral, name="create_referral"),
-    url(r"^(?P<code>\w+)/$", process_referral, name="process_referral")
+    url(r"^(?P<code>[\w\-]+)/$", process_referral, name="process_referral")
 ]
