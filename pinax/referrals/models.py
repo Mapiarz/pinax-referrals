@@ -110,6 +110,10 @@ class Referral(models.Model):
         except IndexError:
             pass
 
+    def regenerate_code(self):
+        self.code = settings.PINAX_REFERRALS_CODE_GENERATOR_CALLBACK(self, Referral)
+        self.save()
+
     def link_responses_to_user(self, user, session_key):
         for response in self.responses.filter(session_key=session_key, user__isnull=True):
             response.user = user
